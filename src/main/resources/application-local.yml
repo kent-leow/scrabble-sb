@@ -1,0 +1,12 @@
+server:
+  port: ${APP_PORT:3000}
+
+scrabble:
+  front-end:
+    url: "http://localhost:3001"
+
+security:
+  jwt:
+    secret-key: "abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890"
+    expiration-time: 900000
+    refresh-expiration-time: 604800000

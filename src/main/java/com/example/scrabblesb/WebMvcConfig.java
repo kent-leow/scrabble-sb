@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-    Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
+    private Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
     @Value("${scrabble.front-end.url}")
     private String[] frontEndApplicationUrl;

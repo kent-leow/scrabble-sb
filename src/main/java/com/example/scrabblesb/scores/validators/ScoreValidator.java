@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 @Component
 public class ScoreValidator implements ConstraintValidator<ScoreConstraint, CreateScoreDto> {
-    Logger logger = Logger.getLogger(ScoreValidator.class.getName());
+    private Logger logger = Logger.getLogger(ScoreValidator.class.getName());
 
     @Override
     public void initialize(ScoreConstraint constraintAnnotation) {
@@ -24,7 +24,7 @@ public class ScoreValidator implements ConstraintValidator<ScoreConstraint, Crea
         // Calculate the score based on the scoringRules
         int score = createScoreDto.getString().chars()
                 .mapToObj(c -> (char) c)
-                .mapToInt(c -> ScoreRules.scoringRules.getOrDefault(Character.toUpperCase(c), 0))
+                .mapToInt(c -> ScoreRules.SCORE_RULES.getOrDefault(Character.toUpperCase(c), 0))
                 .sum();
 
         // Check if the calculated score matches the provided value

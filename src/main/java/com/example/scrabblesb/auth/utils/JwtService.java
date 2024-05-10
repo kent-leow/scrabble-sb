@@ -19,7 +19,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    Logger logger = LoggerFactory.getLogger(JwtService.class);
+    private Logger logger = LoggerFactory.getLogger(JwtService.class);
 
     @Value("${security.jwt.secret-key}")
     private String secretKey;

@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class AuthService {
 
-    Logger logger = LoggerFactory.getLogger(AuthService.class);
+    private Logger logger = LoggerFactory.getLogger(AuthService.class);
     private final UsersService usersService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
@@ -27,7 +27,7 @@ public class AuthService {
     @Autowired
     public AuthService(UsersService usersService, JwtService jwtService) {
         this.usersService = usersService;
-        this.bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder(30);
         this.jwtService = jwtService;
     }
 

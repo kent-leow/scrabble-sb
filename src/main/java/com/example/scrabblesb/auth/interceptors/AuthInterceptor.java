@@ -22,7 +22,7 @@ import java.util.Arrays;
 public class AuthInterceptor implements HandlerInterceptor {
 
     private JwtService jwtService;
-    Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
+    private Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
 
     @Autowired
     public AuthInterceptor(JwtService jwtService) {

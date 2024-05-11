@@ -17,22 +17,21 @@ public class UsersService {
         this.usersRepository = usersRepository;
     }
 
-    public User create(CreateUserDto createUserDto) {
+    public void create(CreateUserDto createUserDto) {
         User createdUser = User.builder()
                 .username(createUserDto.getUsername())
                 .password(createUserDto.getPassword())
                 .role(Role.USER)
                 .build();
-        return usersRepository.save(createdUser);
+        usersRepository.save(createdUser);
     }
 
-    public User updateRefreshToken(String id, String refreshToken) {
-        return usersRepository.findById(id)
+    public void updateRefreshToken(String id, String refreshToken) {
+        usersRepository.findById(id)
                 .map(user -> {
                     user.setRefreshToken(refreshToken);
                     return usersRepository.save(user);
-                })
-                .orElse(null);
+                });
     }
 
     public MeResponseDto getMe(String username) {

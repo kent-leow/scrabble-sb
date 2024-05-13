@@ -41,7 +41,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
     testImplementation 'org.springframework.data:spring-data-mongodb:4.2.5'
     testImplementation 'org.springframework:spring-test:6.1.6'
-    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.13.0'
+    testImplementation 'de.bwaldvogel:mongo-java-server:1.45.0'
 }
 
 tasks.named('test') {

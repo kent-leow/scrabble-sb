@@ -5,7 +5,9 @@ import com.example.scrabblesb.users.dtos.MeResponseDto;
 import com.example.scrabblesb.users.enums.Role;
 import com.example.scrabblesb.users.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UsersService {
@@ -36,6 +38,9 @@ public class UsersService {
 
     public MeResponseDto getMe(String username) {
         User user = usersRepository.findByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
         return MeResponseDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())

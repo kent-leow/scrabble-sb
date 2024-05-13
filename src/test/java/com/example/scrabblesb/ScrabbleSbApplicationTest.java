@@ -24,40 +24,40 @@ import static org.assertj.core.api.Assertions.assertThat;
 @EnableMongoTestServer
 public class ScrabbleSbApplicationTest {
     @Autowired
-    MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @MockBean
-    WebMvcConfig webMvcConfig;
+    private WebMvcConfig webMvcConfig;
 
     @MockBean
-    AuthController authController;
+    private AuthController authController;
 
     @MockBean
-    AuthService authService;
+    private AuthService authService;
 
     @MockBean
-    AuthInterceptor authInterceptor;
+    private AuthInterceptor authInterceptor;
 
     @MockBean
-    JwtService jwtService;
+    private JwtService jwtService;
 
     @MockBean
-    ScoresController scoresController;
+    private ScoresController scoresController;
 
     @MockBean
-    ScoresService scoresService;
+    private ScoresService scoresService;
 
     @MockBean
-    ScoresRepository scoresRepository;
+    private ScoresRepository scoresRepository;
 
     @MockBean
-    UsersController usersController;
+    private UsersController usersController;
 
     @MockBean
-    UsersService usersService;
+    private UsersService usersService;
 
     @MockBean
-    UsersRepository usersRepository;
+    private UsersRepository usersRepository;
 
     @Test
     void contextLoads() {

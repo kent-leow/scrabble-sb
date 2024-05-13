@@ -7,8 +7,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +17,6 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private Logger logger = LoggerFactory.getLogger(JwtService.class);
-
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 

@@ -8,8 +8,6 @@ import com.example.scrabblesb.users.dtos.CreateUserDto;
 import com.example.scrabblesb.users.dtos.RefreshDto;
 import com.example.scrabblesb.users.dtos.SignInDto;
 import com.example.scrabblesb.users.models.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,15 +17,13 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class AuthService {
 
-    private Logger logger = LoggerFactory.getLogger(AuthService.class);
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A);
     private final UsersService usersService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
 
     @Autowired
     public AuthService(UsersService usersService, JwtService jwtService) {
         this.usersService = usersService;
-        this.bCryptPasswordEncoder = new BCryptPasswordEncoder(30);
         this.jwtService = jwtService;
     }
 

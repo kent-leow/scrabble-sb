@@ -9,12 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.logging.Logger;
-
 @Component
 public class ScoreValidator implements ConstraintValidator<ScoreConstraint, CreateScoreDto> {
-    private Logger logger = Logger.getLogger(ScoreValidator.class.getName());
-
     @Override
     public void initialize(ScoreConstraint constraintAnnotation) {
     }

@@ -3,42 +3,57 @@ package com.example.scrabblesb.users;
 import com.example.scrabblesb.auth.dtos.TokenPayloadDto;
 import com.example.scrabblesb.auth.interceptors.AuthInterceptor;
 import com.example.scrabblesb.auth.utils.JwtService;
-import com.example.scrabblesb.users.dtos.MeResponseDto;
+import com.example.scrabblesb.config.WebMvcConfig;
+import com.example.scrabblesb.configs.EnableMongoTestServer;
+import com.example.scrabblesb.scores.ScoresRepository;
+import com.example.scrabblesb.scores.ScoresService;
 import com.example.scrabblesb.users.enums.Role;
+import com.example.scrabblesb.users.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.server.ResponseStatusException;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UsersController.class)
-public class UsersControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+@EnableMongoTestServer
+public class UsersControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private WebMvcConfig webMvcConfig;
+
     @Autowired
     private UsersController usersController;
 
-    @MockBean
+    @Autowired
     private AuthInterceptor authInterceptor;
 
     @MockBean
     private JwtService jwtService;
 
-    @MockBean
+    @Autowired
     private UsersService userService;
+
+    @Autowired
+    private UsersRepository usersRepository;
+
+    @Autowired
+    private ScoresService scoresService;
+
+    @Autowired
+    private ScoresRepository scoresRepository;
 
     @BeforeEach
     public void setUp() {
@@ -48,25 +63,25 @@ public class UsersControllerTest {
 
     @Test
     public void shouldReturnUserWithToken() throws Exception {
+        User user = User.builder()
+                .username("user")
+                .password("password")
+                .role(Role.USER)
+                .build();
+
+        usersRepository.save(user);
+
         TokenPayloadDto tokenPayloadDto = TokenPayloadDto.builder()
                 .username("user")
                 .role(Role.USER)
                 .sub("1").build();
-
-        MeResponseDto meResponseDto = MeResponseDto.builder()
-                .id("1")
-                .username("user")
-                .role(Role.USER)
-                .build();
-
-        when(userService.getMe("user")).thenReturn(meResponseDto);
 
         mockMvc.perform(get("/users/me")
                         .contentType(MediaType.APPLICATION_JSON)
                         .requestAttr("user", tokenPayloadDto))
                 .andExpect(status().isOk())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json("{\"id\":\"1\",\"username\":\"user\",\"role\":\"USER\"}"));
+                .andExpect(content().json("{\"username\":\"user\",\"role\":\"USER\"}"));
 
     }
 
@@ -78,14 +93,11 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void shouldThrowNotFoundErrorWithInvalidToken() throws Exception {
+    public void shouldReturnNotFoundErrorWithInvalidToken() throws Exception {
         TokenPayloadDto tokenPayloadDto = TokenPayloadDto.builder()
                 .username("unknown")
                 .role(Role.USER)
                 .sub("1").build();
-
-        when(userService.getMe(anyString()))
-                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         mockMvc.perform(get("/users/me")
                         .contentType(MediaType.APPLICATION_JSON)
